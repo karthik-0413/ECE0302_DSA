@@ -74,3 +74,35 @@ TEST_CASE( "Test combined", "[bitset]" ) {
         REQUIRE(((b.test(i + (1<<11)) == true && s.at(i + (1<<11)) == '0') || (b.test(i + (1<<11)) == false && s.at(i + (1<<11)) == '1')));
     }
 }
+
+// **********************
+// PERSONAL TEST CASES  *
+// **********************
+
+
+TEST_CASE( "Test reset", "[bitset]") {
+    std::string bitv = "00011001";
+    Bitset box(bitv);
+    box.reset(5);
+    REQUIRE(box.size() == 8);
+    REQUIRE(box.good());
+    REQUIRE(box.asString().compare(bitv) == 0);
+}
+
+TEST_CASE( "Test reset", "[bitset]") {
+    std::string bitv = "10100010";
+    Bitset box(bitv);
+    box.set(7);
+    REQUIRE(box.size() == 8);
+    REQUIRE(box.good());
+    REQUIRE(box.asString().compare(bitv) == 0);
+}
+
+TEST_CASE( "Test reset", "[bitset]") {
+    std::string bitv = "10111001";
+    Bitset box(bitv);
+    box.toggle(3);
+    REQUIRE(box.size() == 8);
+    REQUIRE(box.good());
+    REQUIRE(box.asString().compare(bitv) == 0);
+}

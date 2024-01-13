@@ -7,13 +7,13 @@
 class Bitset{
 public:
 
-  // TODO COMMENT
+  // Default Constructor of Class
   Bitset();
 
-  // TODO COMMENT
+  // Parameterized Contructor of Class
   Bitset(intmax_t size);
 
-  // TODO COMMENT
+  // Parameterized Contructor of Class
   Bitset(const std::string & value);
 
   // TODO COMMENT
@@ -22,7 +22,7 @@ public:
   Bitset(const Bitset & ) = delete;
   Bitset & operator=(const Bitset &) = delete;
 
-  // TODO COMMENT
+  // Returns the size of the bit vector
   intmax_t size() const;
 
   // TODO COMMENT
@@ -45,7 +45,10 @@ public:
 
 private:
 
-  // TODO
+  intmax_t SIZE;
+  u_int8_t *bitvec;
+  bool result;
+
 };
 
 #endif
