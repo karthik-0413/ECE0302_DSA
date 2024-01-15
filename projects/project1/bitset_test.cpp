@@ -79,30 +79,20 @@ TEST_CASE( "Test combined", "[bitset]" ) {
 // PERSONAL TEST CASES  *
 // **********************
 
-
+//Test Case that tests if the reset function is working properly
 TEST_CASE( "Test reset", "[bitset]") {
-    std::string bitv = "00011001";
+    std::string bitv ("00011001");
     Bitset box(bitv);
-    box.reset(5);
+    box.reset(2);
     REQUIRE(box.size() == 8);
     REQUIRE(box.good());
     REQUIRE(box.asString().compare(bitv) == 0);
 }
 
-TEST_CASE( "Test reset", "[bitset]") {
-    std::string bitv = "10100010";
+TEST_CASE ("Length Check", "[bitset]")
+{
+    std::string bitv("10111001");
     Bitset box(bitv);
-    box.set(7);
-    REQUIRE(box.size() == 8);
-    REQUIRE(box.good());
     REQUIRE(box.asString().compare(bitv) == 0);
-}
-
-TEST_CASE( "Test reset", "[bitset]") {
-    std::string bitv = "10111001";
-    Bitset box(bitv);
-    box.toggle(3);
-    REQUIRE(box.size() == 8);
-    REQUIRE(box.good());
-    REQUIRE(box.asString().compare(bitv) == 0);
+    REQUIRE(box.size() == bitv.size());
 }

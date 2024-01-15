@@ -16,35 +16,37 @@ public:
   // Parameterized Contructor of Class
   Bitset(const std::string & value);
 
-  // TODO COMMENT
+  // Destructor
   ~Bitset();
 
+  //Deleted Member Functions
   Bitset(const Bitset & ) = delete;
   Bitset & operator=(const Bitset &) = delete;
 
   // Returns the size of the bit vector
   intmax_t size() const;
 
-  // TODO COMMENT
+  // Returns the bool value on if the bit vector is valid or not
   bool good() const;
 
-  // TODO COMMENT
+  // If the bit vector is valid, then this function will set the nth bit to 1
   void set(intmax_t index);
 
-  // TODO COMMENT
+  // If the bit vector is valid, then this function will set the nth bit to 0
   void reset(intmax_t index);
 
-  // TODO COMMENT
+  // Function that toggles the nth bit from 1 to 0 or 0 to 1
   void toggle(intmax_t index);
 
-  // TODO COMMENT
+  // Function that checks the validity of the nth bit being set to 1
   bool test(intmax_t index);
 
-  // TODO COMMENT
+  // Function that returns the bitset as a string of characters
   std::string asString() const;
 
 private:
 
+  //Declaring needed variables for the program
   intmax_t SIZE;
   u_int8_t *bitvec;
   bool result;
