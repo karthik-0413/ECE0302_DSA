@@ -53,7 +53,6 @@ Bitset::Bitset(const std::string & value) {
     bitvec = new u_int8_t[SIZE];
 
     //Checking if all of the characters in the string are 0's or 1's
-    //for (char bit : value)
     for (int i = 0; i < SIZE; i++)
     {
         //if (bit != '0' && bit != '1')
@@ -63,7 +62,6 @@ Bitset::Bitset(const std::string & value) {
         }
         else
         {
-            //*(bitvec + i) = value[i];
             if (value[i] == '1')
             {
                 *(bitvec + i) = 1;
