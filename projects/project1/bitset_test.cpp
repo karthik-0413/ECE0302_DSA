@@ -81,7 +81,7 @@ TEST_CASE( "Test combined", "[bitset]" ) {
 
 //Test Case that tests if the reset function is working properly
 TEST_CASE( "Test reset", "[bitset]") {
-    std::string bitv ("00011001");
+    std::string bitv ("00011111");
     Bitset box(bitv);
     box.reset(2);
     REQUIRE(box.size() == 8);
@@ -89,6 +89,28 @@ TEST_CASE( "Test reset", "[bitset]") {
     REQUIRE(box.asString().compare(bitv) == 0);
 }
 
+//Test Case that checks if the set and reset member function works properly
+TEST_CASE( "Test set/reset", "[bitset]") {
+    std::string bitv ("00011001");
+    Bitset box(bitv);
+    box.reset(2);
+    box.set(2);
+    REQUIRE(box.size() == 8);
+    REQUIRE(box.good());
+    REQUIRE(box.asString().compare(bitv) == 1);
+}
+
+//Test Case that checks if the toggle member function works properly
+TEST_CASE( "Test toggle", "[bitset]") {
+    std::string bitv ("11001101");
+    Bitset box(bitv);
+    box.toggle(2);
+    REQUIRE(box.size() == 8);
+    REQUIRE(box.good());
+    REQUIRE(box.asString().compare(bitv) == 1);
+}
+
+//Test Case that checks if the asString member function works properly
 TEST_CASE ("Length Check", "[bitset]")
 {
     std::string bitv("10111001");
