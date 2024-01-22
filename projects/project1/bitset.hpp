@@ -48,7 +48,7 @@ private:
 
   //Declaring needed variables for the program
   intmax_t SIZE;
-  u_int8_t *bitvec;
+  bool *bitvec;
   bool result;
 
 };

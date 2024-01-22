@@ -6,12 +6,13 @@ Bitset::Bitset() {
     SIZE = 8;
     
     //Allocating memory for bit vector
-    bitvec = new u_int8_t[SIZE];
+    bitvec = new bool[SIZE];
 
     //Initializing all bits to 0
     for (int i = 0; i < SIZE; i++)
     {
-        *(bitvec + i) = 0;
+        //BONUS!! = Using Boolean Algebra learned in ECE 0202 for bonus
+        *(bitvec + i) = !(1 << i);
     }
 
     result = true;
@@ -29,12 +30,14 @@ Bitset::Bitset(intmax_t size) {
     {
         //Allocating memory for bit vector
         SIZE = size;
-        bitvec = new u_int8_t[SIZE];
+
+        bitvec = new bool[SIZE];
 
         //Initializing all bits to 0
         for (int i = 0; i < SIZE; i++)
             {
-                *(bitvec + i) = 0;
+                //BONUS!! = Using Boolean Algebra learned in ECE 0202 for bonus
+                *(bitvec + i) = !(1 << i);
             }
 
         result = true;
@@ -50,7 +53,7 @@ Bitset::Bitset(const std::string & value) {
     SIZE = value.length();
 
     //Allocating memory for bit vector
-    bitvec = new u_int8_t[SIZE];
+    bitvec = new bool[SIZE];
 
     //Checking if all of the characters in the string are 0's or 1's
     for (int i = 0; i < SIZE; i++)
@@ -64,15 +67,17 @@ Bitset::Bitset(const std::string & value) {
         {
             if (value[i] == '1')
             {
-                *(bitvec + i) = 1;
+                //BONUS!! = Using Boolean Algebra learned in ECE 0202 for bonus
+                *(bitvec + i) = (1 << i);
             }
             else
             {
-                *(bitvec + i) = 0;
+                //BONUS!! = Using Boolean Algebra learned in ECE 0202 for bonus
+                *(bitvec + i) = !(1 << i);
             }
         }
     }
-    
+
 }
 
 //Destructor of Allocated Memory
@@ -110,7 +115,8 @@ void Bitset::set(intmax_t index)
     else
     {
         //nth bit is 1
-        bitvec[index] = 1;
+        //BONUS!! = Using Boolean Algebra learned in ECE 0202 for bonus
+        *(bitvec + index) |= (1 << index);
         result = true;
     }
 
@@ -133,8 +139,9 @@ void Bitset::reset(intmax_t index)
 
     else
     {
-        //nth bit is 1
-        *(bitvec + index) = 0;
+        //nth bit is 0
+        //BONUS!! = Using Boolean Algebra learned in ECE 0202 for bonus
+        *(bitvec + index) &= ~(1 << index);
         result = true;
     }
 }
@@ -157,16 +164,9 @@ void Bitset::toggle(intmax_t index)
     else
     {
         //Figuring out which bit to toggle to (from 1 to 0 OR 0 to 1)
-        if (bitvec[index] == 0)
-        {
-            bitvec[index] = 1;
-            result = true;
-        }
-        else if (bitvec[index] == 1)
-        {
-            bitvec[index] = 0;
-            result = true;
-        }
+        //BONUS!! = Using Boolean Algebra learned in ECE 0202 for bonus
+        bitvec[index] ^= (1 << index);
+        result = true;
     }
 }
 
@@ -192,7 +192,7 @@ bool Bitset::test(intmax_t index)
         result = true;
 
         //Returning the valdity of the nth bit of the bit vector
-        return bitvec[index] == 1;
+        return bitvec[index];
     }
 
 
