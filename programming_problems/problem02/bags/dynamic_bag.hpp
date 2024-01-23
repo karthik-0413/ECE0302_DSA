@@ -44,8 +44,9 @@ public:
   bool contains(const T& item) const;
 
 private:
+  T* things;
+  std::size_t size;
 
-  // TODO
 };
 
 #include "dynamic_bag.tpp"

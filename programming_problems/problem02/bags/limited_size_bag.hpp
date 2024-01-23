@@ -35,8 +35,9 @@ public:
   static const std::size_t maxsize = 100;
 
 private:
-
-  // TODO
+  std::size_t size;
+  
+  T data[maxsize];
 };
 
 #include "limited_size_bag.tpp"
