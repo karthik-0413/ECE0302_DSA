@@ -118,3 +118,21 @@ TEST_CASE ("Length Check", "[bitset]")
     REQUIRE(box.asString().compare(bitv) == 0);
     REQUIRE(box.size() == bitv.size());
 }
+
+//Test Case that checks if the toggle member function works properly
+TEST_CASE( "Test toggle2", "[bitset]") {
+    std::string bitv  ("11001101");
+    std::string bitv2 ("00110010");
+    Bitset box(bitv);
+    box.toggle(0);
+    box.toggle(1);
+    box.toggle(2);
+    box.toggle(3);
+    box.toggle(4);
+    box.toggle(5);
+    box.toggle(6);
+    box.toggle(7);
+    REQUIRE(box.size() == 8);
+    REQUIRE(box.good());
+    REQUIRE(box.asString().compare(bitv2) == 0);
+}

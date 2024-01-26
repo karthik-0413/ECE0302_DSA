@@ -73,7 +73,7 @@ Bitset::Bitset(const std::string & value) {
             else
             {
                 //BONUS!! = Using Boolean Algebra learned in ECE 0202 for bonus
-                *(bitvec + i) = !(1 << i);
+                *(bitvec + i) = 0;
             }
         }
     }
@@ -141,7 +141,7 @@ void Bitset::reset(intmax_t index)
     {
         //nth bit is 0
         //BONUS!! = Using Boolean Algebra learned in ECE 0202 for bonus
-        *(bitvec + index) &= ~(1 << index);
+        *(bitvec + index) &= ~1;
         result = true;
     }
 }
@@ -165,7 +165,7 @@ void Bitset::toggle(intmax_t index)
     {
         //Figuring out which bit to toggle to (from 1 to 0 OR 0 to 1)
         //BONUS!! = Using Boolean Algebra learned in ECE 0202 for bonus
-        bitvec[index] ^= (1 << index);
+        *(bitvec + (index)) ^= 1;
         result = true;
     }
 }
