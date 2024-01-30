@@ -27,7 +27,7 @@ DynamicBag<T>::~DynamicBag(){delete[] things;}
 template<typename T>
 DynamicBag<T>& DynamicBag<T>::operator=(DynamicBag<T> x)
 { 
-  if(this != &x)
+  /*if(this != &x)
   {
     T* temp = new T[x.size];
     for (int i = 0; i < size; i++)
@@ -39,19 +39,25 @@ DynamicBag<T>& DynamicBag<T>::operator=(DynamicBag<T> x)
 
     size = x.size;
   }
+  return *this;*/
+
+  swap(x);
   return *this;
 }
 
 // swap for copy swap idiom
 template<typename T>
 void DynamicBag<T>::swap(DynamicBag<T>& x){
-  T* temp = things;
+  /*T* temp = things;
   things = x.things;
   x.things = temp;
 
   std::size_t temp2 = size;
   size = x.size;
-  x.size = temp2;
+  x.size = temp2;*/
+
+  std::swap(things, x.things);
+  std::swap(size, x.size);
 }
 
 // add an item to the bag
