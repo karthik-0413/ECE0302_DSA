@@ -1,13 +1,27 @@
 #include "array_list.hpp"
 
 template <typename T>
-ArrayList<T>::ArrayList() {}
+ArrayList<T>::ArrayList() {
+  size = 0;
+  max = 5;
+  things = nullptr;
+}
 
 template <typename T>
-ArrayList<T>::~ArrayList() {}
+ArrayList<T>::~ArrayList() {
+  delete[] things;
+}
 
 template <typename T>
-ArrayList<T>::ArrayList(const ArrayList& rhs){}
+ArrayList<T>::ArrayList(const ArrayList& rhs){
+  size = x.size;
+  things = new T[size];
+
+  for(int i = 0; i < size; i++)
+  {
+    *(things + i) = x.things[i];
+  }
+}
 
 template <typename T>
 ArrayList<T>& ArrayList<T>::operator=(ArrayList rhs){

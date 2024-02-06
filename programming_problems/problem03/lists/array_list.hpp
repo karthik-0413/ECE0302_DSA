@@ -46,7 +46,10 @@ public:
 
 private:
 
-  // TODO
+  //Declaring Needed Variables
+  T things[];
+  std::size_t max;
+  std::size_t size;
   
 };
 
