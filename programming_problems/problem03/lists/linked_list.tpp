@@ -1,22 +1,49 @@
 #include "linked_list.hpp"
 
+// Default Constructor
 template <typename T>
-LinkedList<T>::LinkedList() : things(nullptr), size(0)
+LinkedList<T>::LinkedList()
 {
-  //TODO
+  size = 0;
+  headPtr = nullptr;
 }
 
+// Destructor
 template <typename T>
 LinkedList<T>::~LinkedList()
 {
-  //TODO
+  clear();
 }
 
+// Copy Constructor
 template <typename T>
 LinkedList<T>::LinkedList(const LinkedList<T>& x)
 {
-  itemCount = x.itemCount;
+ size = x.size;
+ Node<T>* OldPtr = x.headPtr;
+ 
+ // If x.headPtr is empty, then headPtr is empty too
+ if(OldPtr == nullptr)
+  {
+    headPtr = nullptr;
+  }
 
+//If not, then copy constructor does its job
+else
+  {
+    headPtr = new Node<T>();
+    headPtr->setItem(OldPtr->getItem());
+    Node<T>* NewPtr = headPtr;
+    OldPtr = OldPtr->getNext();
+    while(OldPtr != nullptr)
+    {
+      T next = OldPtr->getItem();
+      Node<T>* NewChange = new Node<T>(next);
+      NewPtr->setNext(NewChange);
+      OldPtr = OldPtr->getNext();
+      NewPtr = NewPtr->getNext();
+    }
+  }
 }
 
 //Member Function to overload = operator
@@ -31,8 +58,8 @@ LinkedList<T>& LinkedList<T>::operator=(LinkedList<T> x)
 template <typename T>
 void LinkedList<T>::swap(LinkedList& x) 
 {
+  std::swap(size, x.size);
   std::swap(headPtr, x.headPtr);
-  std::swap(itemCount, x.size);
 }
 
 //Member Function to see if list is empty
@@ -49,78 +76,131 @@ std::size_t LinkedList<T>::getLength() const noexcept
   return size;
 }
 
-//Member Function to insert new item in list
+//Member Function to insert a item in the linked list
 template <typename T>
 bool LinkedList<T>::insert(std::size_t position, const T& item)
 {
-  bool ableToInsert = (position >= 0) && (position <= size);
-
-  if (ableToInsert)
+  //Checking if position is valid
+  if(position > size || position < 0)
   {
-    auto newNodePtr = std::make_shared< Node<T> >(item);
-
-    if (position == 0)
-    {
-      newNodePtr->setNext(headPtr);
-    }
-    else
-    {
-      auto prevPtr = getNodeAt(position - 1);
-
-      newNodePtr->setNext(prevPtr->getNext());
-      prevPtr->steNext(newNodePtr);
-    }
-    size++;
+    return false;
   }
-  return ableToInsert;
+
+
+  Node<T> *PTR = new Node<T>(item);
+  // Case 1: if position is the first node on the list
+  if (position == 0)
+  {
+    PTR->setNext(headPtr);
+    headPtr = PTR;
+  }
+  //Case 2: if position is th elast node on the list
+  else if(position == size - 1)
+  {
+    Node<T> *prev = headPtr;
+
+    while(prev->getNext() != nullptr)
+    {
+      prev = prev->getNext();
+    }
+    PTR->setNext(nullptr);
+    prev->setNext(PTR);
+  }
+  //Case 3: if the position is somewhere in the middle
+  else
+  {
+    Node<T> *prev = headPtr;
+    for (std::size_t i = 0; i < position - 1; ++i)
+    {
+      prev = prev->getNext();
+    }
+    PTR->setNext(prev->getNext());
+    prev->setNext(PTR);
+  }
+  
+  //Increment size and return true;
+  size++;
+  return true;
 }
 
+
+//Member Function to remove the position parameter
 template <typename T>
 bool LinkedList<T>::remove(std::size_t position)
 {
-  bool ableToInsert = (position >= 0) && (position <= size);
-
-  if (ableToInsert)
+  //Checking if position is valid
+  if(position >= size || position < 0)
   {
-    auto newNodePtr = std::make_shared< Node<T> >(item);
-
-    if (position == 0)
-    {
-      newNodePtr->setNext(headPtr);
-    }
-    else
-    {
-      auto prevPtr = getNodeAt(position - 1);
-
-      newNodePtr->setNext(prevPtr->getNext());
-      prevPtr->steNext(newNodePtr);
-    }
-    size--;
+    return false;
   }
-  return ableToInsert;
+
+  Node<T>* PTR = headPtr;
+  //For-Loop to get the node where the position is at
+  for (int i = 0; i < position; i++)
+  {
+    PTR = PTR->getNext();
+  }
+
+  PTR->setItem(headPtr->getItem());
+  Node<T>* gone = headPtr;
+  headPtr = headPtr->getNext();
+  gone->setNext(nullptr);
+  delete gone;
+
+  //Decrement size and return true;
+  size--;
+  return true;
 }
 
 //Member Function to clear list
 template <typename T>
 void LinkedList<T>::clear()
 {
-  size = 0;
-  headPtr = nullptr;
+  Node<T>* clear = headPtr;
+   while (headPtr != nullptr)
+   {
+      headPtr = headPtr->getNext();
+      clear->setNext(nullptr);
+      delete clear;
+      clear = headPtr;
+   }
+   size = 0;
 }
 
+//Member Function to get an item in the list
 template <typename T>
 T LinkedList<T>::getEntry(std::size_t position) const
 {
   if(position < 0 || position >= size)
+  {
     return T();
-
-  
-  
-
+  }
+  else
+  {
+    Node<T>* set = headPtr;
+    for (int i = 0; i < position; i++)
+    {
+      set = set->getNext();
+    }
+    return set->getItem();
+  }
 }
 
+//Member Function to replace an item in the list
 template <typename T>
 void LinkedList<T>::setEntry(std::size_t position, const T& newValue)
 {
-  //TODO
+  if(position < 0 || position >= size)
+  {
+    return;
+  }
+  else
+  {
+    Node<T>* set = headPtr;
+    for (int i = 0; i < position; i++)
+    {
+      set = set->getNext();
+    }
+    set->setItem(newValue);
+  }
 }

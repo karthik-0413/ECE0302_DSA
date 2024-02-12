@@ -1,63 +1,144 @@
 #include "array_list.hpp"
 
+// default constructor
 template <typename T>
 ArrayList<T>::ArrayList() {
   size = 0;
-  max = 5;
-  things = nullptr;
+  capacity = 100;
+  things = new T[capacity];
+  for (int i = 0; i < size; i++)
+  {
+    *(things + i) = 0;
+  }
+  
 }
 
+// destructor
 template <typename T>
 ArrayList<T>::~ArrayList() {
   delete[] things;
 }
 
+// copy constructor
 template <typename T>
 ArrayList<T>::ArrayList(const ArrayList& rhs){
-  size = x.size;
-  things = new T[size];
+  size = rhs.size;
+  capacity = rhs.capacity;
+  things = new T[capacity];
 
+  //For-Loop to copy all of contents in things to rhs.things
   for(int i = 0; i < size; i++)
   {
-    *(things + i) = x.things[i];
+    things[i] = rhs.things[i];
   }
 }
 
+// copy assignment
 template <typename T>
 ArrayList<T>& ArrayList<T>::operator=(ArrayList rhs){
+  swap(rhs);
   return *this;
 }
 
+// swap function to help with copy assignment
 template <typename T>
-void ArrayList<T>::swap(ArrayList& rhs) {}
+void ArrayList<T>::swap(ArrayList& rhs) {
+  std::swap(size, rhs.size);
+  std::swap(capacity, rhs.capacity);
+  std::swap(things, rhs.things);
+}
 
+// determine if a list is empty
 template <typename T>
 bool ArrayList<T>::isEmpty() const noexcept {
-  return false;
+  return size == 0;
 }
 
+// return current length of the list
 template <typename T>
 std::size_t ArrayList<T>::getLength() const noexcept {
-  return 0;
+  return size;
 }
 
+// insert item at position in the list
 template <typename T>
 bool ArrayList<T>::insert(std::size_t position, const T& item){
-  return false;
+  //Checking if position is valid
+  if (position > size || position < 0)
+  {
+    return false;
+  }
+
+  // FOLLOWING OUTLINE THAT WAS GIVEN TO US IN CLASS
+  else if (size == capacity)
+  {
+    // need to reallocate
+    capacity += 100;
+    T* newPtr = new T[capacity];
+    for (int i = 0; i < size; ++i)
+    {
+      *(newPtr + i) = *(things + i);
+    }
+    delete[] things;
+    things = newPtr;
+    return true;
+  }
+
+  //For-Loop to get the items other than the position index to be the same
+  for (std::size_t i = size; i > position; --i)
+  {
+    *(things + i) = *(things + (i-1));
+  }
+
+  //Assigning the position in the parameter to the item in the parameter
+  things[position] = item;
+  size++;
+  return true;
+
 }
 
+// remove item at position in the list
 template <typename T>
 bool ArrayList<T>::remove(std::size_t position){
-  return false;
+  //Checking if position is valid
+  if (position > size || position < 0)
+  {
+    return false;
+  }
+
+  size--;
+
+  //For-Loop to shift all of the items in the list left to remove the position item
+  for(int i = position; i < size; i++)
+  {
+    *(things + i) = *(things + (i+1));
+  }
+
+  return true;
+
 }
 
+// remove all items from the list
 template <typename T>
-void ArrayList<T>::clear() {}
+void ArrayList<T>::clear() {size = 0;}
 
+// get a copy of the item at position
 template <typename T>
 T ArrayList<T>::getEntry(std::size_t position) const {
-  return T();
+  //Checking if position is valid
+  if(position < 0 || position >= size)
+    return T();
+
+  return *(things + position);
 }
 
+// set the value of the item at position 
 template <typename T>
-void ArrayList<T>::setEntry(std::size_t position, const T& newValue) {}
+void ArrayList<T>::setEntry(std::size_t position, const T& newValue) {
+  //Checking if position is valid
+  if (position < size && position >= 0)
+  {
+    *(things + position) = newValue;
+  }
+}
+

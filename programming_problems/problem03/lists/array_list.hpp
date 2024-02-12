@@ -47,9 +47,9 @@ public:
 private:
 
   //Declaring Needed Variables
-  T things[];
-  std::size_t max;
+  T* things;
   std::size_t size;
+  std::size_t capacity;
   
 };
 
