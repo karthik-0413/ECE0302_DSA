@@ -94,7 +94,7 @@ bool LinkedList<T>::insert(std::size_t position, const T& item)
     PTR->setNext(headPtr);
     headPtr = PTR;
   }
-  //Case 2: if position is th elast node on the list
+  //Case 2: if position is the last node on the list
   else if(position == size - 1)
   {
     Node<T> *prev = headPtr;
@@ -135,17 +135,20 @@ bool LinkedList<T>::remove(std::size_t position)
   }
 
   Node<T>* PTR = headPtr;
+
   //For-Loop to get the node where the position is at
   for (int i = 0; i < position; i++)
   {
     PTR = PTR->getNext();
   }
 
+  //Going throught steps to remove the given positoin node
   PTR->setItem(headPtr->getItem());
   Node<T>* gone = headPtr;
   headPtr = headPtr->getNext();
   gone->setNext(nullptr);
   delete gone;
+  gone = nullptr;
 
   //Decrement size and return true;
   size--;
@@ -160,7 +163,9 @@ void LinkedList<T>::clear()
    while (headPtr != nullptr)
    {
       headPtr = headPtr->getNext();
+
       clear->setNext(nullptr);
+
       delete clear;
       clear = headPtr;
    }
@@ -171,6 +176,7 @@ void LinkedList<T>::clear()
 template <typename T>
 T LinkedList<T>::getEntry(std::size_t position) const
 {
+  //Checking validity of position
   if(position < 0 || position >= size)
   {
     return T();
@@ -178,6 +184,7 @@ T LinkedList<T>::getEntry(std::size_t position) const
   else
   {
     Node<T>* set = headPtr;
+    //For-Loop to get the node where the position is at
     for (int i = 0; i < position; i++)
     {
       set = set->getNext();
@@ -190,6 +197,7 @@ T LinkedList<T>::getEntry(std::size_t position) const
 template <typename T>
 void LinkedList<T>::setEntry(std::size_t position, const T& newValue)
 {
+  //Checking validity of position
   if(position < 0 || position >= size)
   {
     return;
@@ -197,6 +205,7 @@ void LinkedList<T>::setEntry(std::size_t position, const T& newValue)
   else
   {
     Node<T>* set = headPtr;
+    //For-Loop to get the node where the position is at
     for (int i = 0; i < position; i++)
     {
       set = set->getNext();
