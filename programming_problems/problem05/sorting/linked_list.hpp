@@ -47,7 +47,9 @@ public:
 
 private:
 
-  //TODO
+  //Declaring needed variables
+  Node<T>* headPtr;
+  std::size_t size;
   
 };
 

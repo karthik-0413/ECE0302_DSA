@@ -3,13 +3,16 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 class FindPalindrome{
 
 private:
 	// private stuff that you define and implement goes here...
 	
-	// ...
+	int numPalindromes;
+	vector<string> Words;
+	vector<vector<string>> Answers;
 	
 	// private stuff that you are given or is specified in the project
 	// description...

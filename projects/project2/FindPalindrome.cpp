@@ -24,7 +24,9 @@ static void convertToLowerCase(string & value)
 void FindPalindrome::recursiveFindPalindromes(vector<string>
         candidateStringVector, vector<string> currentStringVector)
 {
-	// TODO need to implement this recursive function!
+
+
+
 	return;
 }
 
@@ -49,29 +51,46 @@ bool FindPalindrome::isPalindrome(string currentString) const
 
 FindPalindrome::FindPalindrome()
 {
-	// TODO need to implement this...
+	// Setting numPalindromes to 0 as Constructor
+	numPalindromes = 0;
 }
 
 FindPalindrome::~FindPalindrome()
 {
-	// TODO need to implement this...
+	clear();
 }
 
 int FindPalindrome::number() const
 {
-	// TODO need to implement this...
-	return 10;
+	// Returning the variable that keeps track of the number of palindromes present
+	return numPalindromes;
 }
 
 void FindPalindrome::clear()
 {
-	// TODO need to implement this...
+	// Setting the variables to either be 0 or empty so that the data is all cleared
+	numPalindromes = 0;
+	Words.clear();
+	Answers.clear();
 }
 
 bool FindPalindrome::cutTest1(const vector<string> & stringVector)
 {
-	// TODO need to implement this...
-	return false;
+	string final = "";
+
+	for (int i = 0; i < stringVector.size(); i++)
+	{
+		final += stringVector[i];
+	}
+
+	if (isPalindrome(final))
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
 }
 
 bool FindPalindrome::cutTest2(const vector<string> & stringVector1,
@@ -83,14 +102,21 @@ bool FindPalindrome::cutTest2(const vector<string> & stringVector1,
 
 bool FindPalindrome::add(const string & value)
 {
-	// TODO need to implement this...
-	return false;
+	// For-Loop to check if the 'value' parameter if already in the Words vector
+	for (int i = 0; i < Words.size(); i++)
+	{
+		if(Words[i] == value)
+		{
+			return false;
+		}
+	}
+	Words.push_back(value);
+	return true;
 }
 
 bool FindPalindrome::add(const vector<string> & stringVector)
 {
-	// TODO need to implement this...
-	return false;
+	
 }
 
 vector< vector<string> > FindPalindrome::toVector() const
