@@ -141,7 +141,7 @@ bool FindPalindrome::cutTest1(const vector<string> & stringVector)
 	int final5 = 0;
 
 	// For-Loop that iterates through all of the letters in the alphabet 
-	for (char c = 'a'; c <= 'z'; ++c)
+	for (char c = 'a'; c <= 'z'; c++)
 	{
 		int oddCount = 0;
 		for (int i = 0; i < final.size(); i++)
@@ -365,7 +365,7 @@ bool FindPalindrome::add(const vector<string> & stringVector)
 	// By above copying, if result was true, then the adding takes place
 	if (result)
 	{
-		// For-Loop to check if the 'value' parameter if already in the Words vector
+		// For-Loop to check if the strings within the vector of strings parameter if already in the Words vector
 		for (int i = 0; i < stringVector.size(); i++)
 		{
 			bool result2 = false;
