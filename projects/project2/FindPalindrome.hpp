@@ -4,14 +4,20 @@
 #include <string>
 #include <vector>
 #include <iostream>
+using namespace std;
 
 class FindPalindrome{
 
 private:
 	// private stuff that you define and implement goes here...
 	
+	// Variable needed to keep track of number of palindromes
 	int numPalindromes;
+
+	// Variable needed to keep track the vector of strings
 	vector<string> Words;
+
+	// Variable needed to keep track the vector of vector of strings
 	vector<vector<string>> Answers;
 	
 	// private stuff that you are given or is specified in the project
