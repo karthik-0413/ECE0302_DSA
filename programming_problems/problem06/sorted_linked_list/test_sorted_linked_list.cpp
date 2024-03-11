@@ -8,6 +8,109 @@ typedef SortedLinkedList<char> ListType;
 
 template class SortedLinkedList<int>;
 
+// **********************
+//  PERSONAL TEST CASES *
+// **********************
+// Testing to see if the insert and remove functions work with characters
+TEST_CASE("Testing Personal1", "[sorted linked list]") {
+  ListType lst;
+
+  lst.insert('a');
+  REQUIRE(!lst.isEmpty());
+
+  lst.remove('a');
+  REQUIRE(lst.isEmpty());
+}
+// Testing to see if the insert and removeAt functions work with integers
+TEST_CASE("Testing Personal2", "[sorted linked list]") {
+  ListType lst;
+
+  lst.insert(1);
+  REQUIRE(!lst.isEmpty());
+
+  lst.removeAt(0);
+  REQUIRE(lst.isEmpty());
+}
+// Testing to see if the insert and getPosition functions work with characters
+// Testing to see if exceptions work with the removeAt function
+TEST_CASE("Testing Personal3", "[sorted linked list]") {
+  ListType lst;
+
+  lst.insert('d');
+  lst.insert('r');
+  lst.insert('q');
+  lst.insert('t');
+  lst.insert('b');
+  REQUIRE(lst.getPosition('d') == 1);
+  CHECK_THROWS_AS(lst.removeAt(5), std::range_error);
+}
+// Testing to see if the insert, remove, and removeAt functions work
+// Testing to see if the list is empty after and an exception is thrown when trying to remove an item when it is empty
+TEST_CASE("Testing Personal4", "[sorted linked list]") {
+  ListType lst;
+
+  lst.insert('a');
+  lst.insert('b');
+  lst.insert('c');
+  lst.remove('a');
+  lst.remove('b');
+  lst.remove('c');
+  REQUIRE(lst.isEmpty() == 1);
+  CHECK_THROWS_AS(lst.removeAt(0), std::range_error);
+}
+// Testing to see if the insert, clear, and removeAt functions work
+// Testing to see if the list is empty after and an exception is thrown when trying to remove an item when it is empty
+TEST_CASE("Testing Personal5", "[sorted linked list]") {
+  ListType lst;
+
+  lst.insert('a');
+  lst.insert('b');
+  lst.insert('c');
+  lst.clear();
+  REQUIRE(lst.isEmpty() == 1);
+  CHECK_THROWS_AS(lst.removeAt(0), std::range_error);
+}
+// Testing to see if the insert and the getPosition when the number is not in the list
+TEST_CASE("Testing Personal6", "[sorted linked list]") {
+  ListType lst;
+
+  lst.insert('a');
+  lst.insert('b');
+  lst.insert('c');
+  REQUIRE(lst.getPosition('d') == -1);
+  REQUIRE(lst.getPosition('a') == 0);
+  REQUIRE(lst.getPosition('c') == 2);
+  REQUIRE(lst.getPosition('b') == 1);
+  REQUIRE(lst.getPosition('e') == -1);
+}
+// Testing to see if the insert and the getEntry functions work preperly
+// Also checking to see if there is an exception present when the index is not in the list
+TEST_CASE("Testing Personal7", "[sorted linked list]") {
+  ListType lst;
+
+  lst.insert('a');
+  lst.insert('b');
+  lst.insert('c');
+  REQUIRE(lst.getEntry(0) == 'a');
+  CHECK_THROWS_AS(lst.getEntry(3), std::range_error);
+}
+// Testing to see if the insert and the getEntry functions work preperly
+// Also checking to see if there is an exception present when the index is not in the list
+// SAME AS ABOVE BUT CHECKING TO SEE WHEN THE SORTEDLINKEDLIST CAN HANDLE DIFFERENT DATA TYPES
+TEST_CASE("Testing Personal8", "[sorted linked list]") {
+  ListType lst;
+
+  lst.insert(1);
+  lst.insert(2);
+  lst.insert(3);
+  REQUIRE(lst.getEntry(0) == 1);
+  CHECK_THROWS_AS(lst.getEntry(3), std::range_error);
+}
+
+
+// **********************
+//  GIVEN TEST CASES *
+// **********************
 TEST_CASE("Testing isEmpty", "[sorted linked list]") {
   ListType lst;
   REQUIRE(lst.isEmpty());
