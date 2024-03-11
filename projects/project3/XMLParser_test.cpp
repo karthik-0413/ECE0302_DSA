@@ -7,7 +7,133 @@
 using namespace std;
 
 // TODO Implement tests of your Stack class and XMLParser class here
+// ****************************
+// STACK PERSONAL TEST CASES  *
+// ****************************
 
+// Testing to see if push and pop functions work properly
+TEST_CASE( "Test Stack1", "[ADT Bag]" )
+{
+	   Stack<int> stack;
+		stack.push(1);
+        stack.push(2);
+        stack.push(3);
+        REQUIRE(stack.pop() == 1);
+        REQUIRE(stack.pop() == 1);
+        REQUIRE(stack.pop() == 1);
+		REQUIRE(stack.pop() == 0);
+        REQUIRE(stack.isEmpty());
+}
+// Testing to see if push, peek, and pop functions work properly
+TEST_CASE( "Test Stack2", "[ADT Bag]" )
+{
+	   Stack<int> stack;
+		stack.push(1);
+        stack.push(2);
+        stack.push(3);
+		REQUIRE(stack.peek() == 3);
+        REQUIRE(stack.pop() == 1);
+		REQUIRE(stack.peek() == 2);
+        REQUIRE(stack.pop() == 1);
+		REQUIRE(stack.peek() == 1);
+        REQUIRE(stack.pop() == 1);
+        REQUIRE(stack.isEmpty());
+}
+// Testing to see if push, pop, and clear functions work properly
+TEST_CASE( "Test Stack3", "[ADT Bag]" )
+{
+	   Stack<int> stack;
+		stack.push(1);
+        stack.push(2);
+        stack.push(3);
+		stack.clear();
+        REQUIRE_FALSE(stack.pop() == 1);
+        REQUIRE(stack.isEmpty());
+}
+// Testing to see if the stack updates the current size each time an item is pushed into it
+TEST_CASE( "Test Stack4", "[ADT Bag]" )
+{
+	   Stack<char> stack;
+		stack.push('a');
+        stack.push('a');
+        stack.push('b');
+		stack.push('a');
+        REQUIRE(stack.size() == 4);
+        REQUIRE(stack.isEmpty() == 0);
+}
+
+// TODO Implement tests of your Stack class and XMLParser class here
+// ********************************
+// XMLParser PERSONAL TEST CASES  *
+// ********************************
+
+// Testing to check if invalid strings return false and valid strings return true
+TEST_CASE( "Test XMLParser1", "[XMLParser]" )
+{
+		// Create an instance of XMLParse
+		XMLParser myXMLParser;
+
+        REQUIRE(myXMLParser.tokenizeInputString("") == 0);
+        REQUIRE(myXMLParser.tokenizeInputString(" ") == 0);
+        REQUIRE(myXMLParser.tokenizeInputString("<!>") == 0);
+
+        REQUIRE(myXMLParser.tokenizeInputString("<test></test>") == 1);
+        REQUIRE(myXMLParser.tokenizeInputString("<test>content</test>") == 1);
+        REQUIRE(myXMLParser.tokenizeInputString("<test attribute=\"value\"></test>") == 1);
+}
+// Testing to check if flipping the end and start tag return true in tokenize function, but return false in parse function
+TEST_CASE( "Test XMLParser2", "[XMLParser]" )
+{
+		// Create an instance of XMLParse
+		XMLParser myXMLParser;
+
+        myXMLParser.tokenizeInputString("<test></test>");
+        REQUIRE(myXMLParser.parseTokenizedInput() == true);
+
+		myXMLParser.tokenizeInputString("</test><test>");
+        REQUIRE_FALSE(myXMLParser.parseTokenizedInput() == true);
+}
+// Testing to check if the contains and frequency functions are working properly
+TEST_CASE( "Test XMLParser3", "[XMLParser]" )
+{
+		// Create an instance of XMLParse
+		XMLParser myXMLParser;
+
+        myXMLParser.tokenizeInputString("<test></test>");
+        REQUIRE(myXMLParser.parseTokenizedInput() == true);
+		REQUIRE(myXMLParser.containsElementName("test") == 1);
+		REQUIRE(myXMLParser.frequencyElementName("test") == 1);
+}
+// Testing to check if the parse function returns false because the string I declared is not under one root element
+TEST_CASE( "Test XMLParser4", "[XMLParser]" )
+{
+		// Create an instance of XMLParse
+		XMLParser myXMLParser;
+
+		string practice = "<root><test></root></test>";
+
+        myXMLParser.tokenizeInputString("<root><test></root></test>");
+		REQUIRE(myXMLParser.parseTokenizedInput() == false);
+        REQUIRE(myXMLParser.tokenizeInputString(practice) == true);
+}
+// Testing to check if the clear function works and erases the tokenizedInputVector
+TEST_CASE( "Test XMLParser5", "[XMLParser]" )
+{
+		// Create an instance of XMLParse
+		XMLParser myXMLParser;
+
+        myXMLParser.tokenizeInputString("<test>stuff</test>");
+		myXMLParser.parseTokenizedInput();
+		myXMLParser.clear();
+		REQUIRE(myXMLParser.returnTokenizedInput().size() == 0);
+		REQUIRE(myXMLParser.containsElementName("test") == 0);
+		REQUIRE(myXMLParser.frequencyElementName("test") == 0);
+}
+
+
+// *******************
+// GIVEN TEST CASES  *
+// *******************
 TEST_CASE( "Test Bag add", "[ADT Bag]" )
 {
 	   INFO("Hint: testing Bag add()");

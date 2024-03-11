@@ -3,6 +3,7 @@
 
 /** @file Bag.cpp */
 
+#include "Bag.hpp"
 #include <algorithm>
 #include <cstddef>
 
