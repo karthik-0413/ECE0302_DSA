@@ -40,13 +40,39 @@ std::size_t SortedList<T, L>::getLength() const noexcept
 template <typename T, typename L>
 void SortedList<T, L>::insert(const T& item)
 {
-  // TODO
+  // If-Statement to insert the item to the beginning of the list if the list is empty
+  if (isEmpty())
+  {
+    plist.insert(0, item);
+    return;
+  }
+  // Else, find the position where the item is at
+  int position = 0;
+  while (position < getLength() && item > plist.getEntry(position))
+  {
+    position++;
+  }
+  
+  // Then, insert the item in the position found above using the List insert function
+  plist.insert(position, item);
 }
 
 template <typename T, typename L>
 void SortedList<T, L>::remove(const T& item)
 {
-  // TODO
+  // If-Statement to throw an exception if the list is empty
+  if (isEmpty())
+  {
+    throw std::range_error("Nothing to remove");
+  }
+  // Else, find the position where the item is at
+  int position = 0;
+  while (item > plist.getEntry(position))
+  {
+      position++;
+  }
+  // Removing the item in the position found above using the List remove function
+  plist.remove(position);
 }
 
 template <typename T, typename L>
@@ -70,6 +96,16 @@ T SortedList<T, L>::getEntry(std::size_t position) const
 template <typename T, typename L>
 long int SortedList<T, L>::getPosition(const T& newValue)
 {
-  // TODO
-  return 0;
+  // For-Loop that goes through the items in the list
+  for (int i = 0; i < plist.getLength(); i++)
+  {
+    // If-Statement that check if the item in the parameter is equal to the list item being compared
+    if (newValue == plist.getEntry(i))
+    {
+      // If so, then return the position, which is i in this case
+      return i;
+    }
+  }
+  // If the item is not found, then return -1
+  return -1;
 }
