@@ -78,6 +78,11 @@ void SortedList<T, L>::remove(const T& item)
 template <typename T, typename L>
 void SortedList<T, L>::removeAt(std::size_t position)
 {
+  // If-Statement to throw an exception if the list is empty
+  if (isEmpty())
+  {
+    throw std::range_error("Nothing to remove");
+  }
   plist.remove(position);
 }
 
