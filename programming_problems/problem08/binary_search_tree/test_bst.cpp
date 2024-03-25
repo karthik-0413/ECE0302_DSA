@@ -96,3 +96,39 @@ TEST_CASE("Test Copy Assign", "[copy assign]") {
     
 }
 
+// **********************************
+// PERSONAL TEST CASES FOR TREESORT *
+// **********************************
+
+// Test case to make sure that sorting is in ascending order
+TEST_CASE("Test Tree Sort1", "[treeSort]")
+{
+    int arr[] = {6, 5, 4, 3, 2, 1};
+    int size = 6;
+
+    TreeType bst1;
+
+    bst1.treeSort(arr, size);
+
+    REQUIRE(arr[0] == 1);
+    REQUIRE(arr[1] == 2);
+    REQUIRE(arr[2] == 3);
+    REQUIRE(arr[3] == 4);
+    REQUIRE(arr[4] == 5);
+    REQUIRE(arr[5] == 6);
+}
+
+// Test Case to make sure no duplicates
+TEST_CASE("Test Tree Sort2", "[treeSort]")
+{
+    int arr[] = {6, 6, 5, 5, 1};
+    int size = 5;
+
+    TreeType bst1;
+
+    bst1.treeSort(arr, size);
+
+    REQUIRE(arr[0] == 1);
+    REQUIRE(arr[1] == 5);
+    REQUIRE(arr[2] == 6);
+}

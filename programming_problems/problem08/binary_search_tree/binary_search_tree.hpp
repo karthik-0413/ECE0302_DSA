@@ -22,7 +22,7 @@ public:
     bool remove(KeyType key);
     void destroy();
     void treeSort(KeyType arr[], int size);
-
+;
 private:
     template <typename K, typename I>
     struct Node {
@@ -40,11 +40,13 @@ private:
 
     Node<KeyType, ItemType>* root;
 
-     void inorder(Node<KeyType, ItemType>* curr, Node<KeyType, ItemType>*& in,
+    void inorder(Node<KeyType, ItemType>* curr, Node<KeyType, ItemType>*& in,
         Node<KeyType, ItemType>*& parent);
 
     void search(KeyType key, Node<KeyType, ItemType>*& curr,
         Node<KeyType, ItemType>*& parent);
+    void storeSorted(Node<KeyType, ItemType>* node, KeyType arr[], int &i);
+    void insert2(Node<KeyType, ItemType>* &root, const KeyType& key, const ItemType& item);
 };
 
 #include "binary_search_tree.tpp"
