@@ -4,11 +4,6 @@ List<T>::List() {
   size = 0;
   capacity = 100;
   things = new T[capacity];
-  for (int i = 0; i < size; i++)
-  {
-    *(things + i) = 0;
-  }
-  
 }
 
 // destructor
