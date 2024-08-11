@@ -1,0 +1,202 @@
+#include "stm32l476xx.h"
+#include "SysClock.h"
+#include "UART.h"
+#include "stdbool.h"
+
+#include <string.h>
+#include <stdio.h>
+#include <time.h>
+
+// Declaring the assembly functions that we will be implementing
+extern void keypad();
+extern void stepperMotor(bool direction);
+extern void sevenSeg();
+
+// Array to store each button press
+bool array[5];
+int size = sizeof(array) / sizeof(array[0]);
+
+
+void EXTI_Init(void)
+{
+      RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;     
+      
+      SYSCFG->EXTICR[0] &= (~SYSCFG_EXTICR1_EXTI0 | ~SYSCFG_EXTICR1_EXTI1 | ~SYSCFG_EXTICR1_EXTI2 | ~SYSCFG_EXTICR1_EXTI3);
+      SYSCFG->EXTICR[0] |= (SYSCFG_EXTICR1_EXTI0_PA | SYSCFG_EXTICR1_EXTI1_PA | SYSCFG_EXTICR1_EXTI2_PA | SYSCFG_EXTICR1_EXTI3_PA);
+      SYSCFG->EXTICR[0] &= ~(0x000F);           // DO YOU NEED THIS???
+      
+      EXTI->RTSR1 |= (EXTI_RTSR1_RT0 | EXTI_RTSR1_RT1 | EXTI_RTSR1_RT2 | EXTI_RTSR1_RT3);
+      EXTI->FTSR1 &= (~EXTI_FTSR1_FT0 | ~EXTI_FTSR1_FT1 | ~EXTI_FTSR1_FT2 | ~EXTI_FTSR1_FT3);
+      
+      EXTI->IMR1 |= (EXTI_IMR1_IM0 | EXTI_IMR1_IM1 | EXTI_IMR1_IM2 | EXTI_IMR1_IM3);
+      
+      NVIC_SetPriority(EXTI0_IRQn,0);
+      NVIC_EnableIRQ(EXTI0_IRQn);
+      NVIC_SetPriority(EXTI1_IRQn,0);
+      NVIC_EnableIRQ(EXTI1_IRQn);
+      NVIC_SetPriority(EXTI2_IRQn,0);
+      NVIC_EnableIRQ(EXTI2_IRQn);
+      NVIC_SetPriority(EXTI3_IRQn,0);
+      NVIC_EnableIRQ(EXTI3_IRQn);
+}
+
+void EXIT0_Handler()
+{
+      if((EXTI->PR1 & EXTI_PR1_PIF0) == EXTI_PR1_PIF0)
+      {
+            array[0] = 1;
+            
+            EXTI->PR1 |= EXTI_PR1_PIF0;
+      }
+}
+
+void EXIT1_Handler()
+{
+      if((EXTI->PR1 & EXTI_PR1_PIF1) == EXTI_PR1_PIF1)
+      {
+            array[1] = 1;
+            
+            EXTI->PR1 |= EXTI_PR1_PIF1;
+      }
+}
+
+void EXIT2_Handler()
+{
+      if((EXTI->PR1 & EXTI_PR1_PIF2) == EXTI_PR1_PIF2)
+      {
+            array[2] = 1;
+            
+            EXTI->PR1 |= EXTI_PR1_PIF2;
+      }
+}
+
+void EXIT3_Handler()
+{
+      if((EXTI->PR1 & EXTI_PR1_PIF3) == EXTI_PR1_PIF3)
+      {
+            array[3] = 1;
+            
+            EXTI->PR1 |= EXTI_PR1_PIF3;
+      }
+}
+
+void delay(int number_of_seconds)
+{
+    // Converting time into milli_seconds
+    int milli_seconds = 1000 * number_of_seconds;
+ 
+    // Storing start time
+    clock_t start_time = clock();
+ 
+    // looping till required time is not achieved
+    while (clock() < start_time + milli_seconds) {;}
+}
+
+
+int main(void)
+{
+      
+      // Declaring needed variables
+      bool direction_Floor = true;  // Stepper Motor for Floor
+      bool direction_Door = true;   // Stepper Motor for Door
+      bool buttonPressed = false;   // Helps the stepper motor to know when to move and not
+      int keyPadValue = 1;    // KeyPad Value
+      int currentFloor = 1; // Seven Segment Display Argument
+      int destinationFloor = 1;     // LED Argument
+
+      EXTI_Init();
+
+      // If a button press is detected
+      if (array[0] == 1 || array[1] == 1 || array[2] == 1 || array[3] == 1 || array[4] == 1)
+      {
+            // Stop the elevator movement
+            buttonPressed = true;
+            // Reset the button press flag
+            for (int i = 0; i < size; i++)
+            {
+                  array[i] = 0;
+            }
+      }
+
+      // Moving the elevator
+      if (buttonPressed)
+      {    
+            stepperMotor(direction_Floor);
+
+            // Update the current floor
+            currentFloor = (currentFloor + 1) % 4; // Update the current floor based on the stepper motor steps
+
+            // Display the current floor on the seven segment display
+            sevenSeg(currentFloor);
+
+            // Reset the button pressed flag
+            buttonPressed = false;
+      }
+
+      // If the elevator floor is equal to the destination floor
+      if (currentFloor == destinationFloor)
+      {
+            // Open the door
+            direction_Door = true;
+
+            stepperMotor(direction_Door);
+
+            // Wait for passengers to get out of elevator
+            delay(5); // 5 seconds delay
+
+            stepperMotor(!direction_Door);
+
+            // Reset the destination floor
+            destinationFloor = 1;
+      }
+
+      
+
+
+
+      // **********************************************
+      // DESCRIPTION OF ALL FUNCTIONS OF THE ELEVATOR *
+      // **********************************************
+
+
+      // ***************************
+      //    STEPPER MOTOR FOR FLOORS *
+      // ***************************
+
+      // Find out how many turns the stepper motor should turn for each floor
+      // CALL the stepper motor function and PASS in a bool value to make sure that the elevator
+      // is going in the desired direction ( true = UP / false = DOWN )
+
+      // **************************
+      //    STEPPER MOTOR FOR DOORS *
+      // **************************
+
+      // Find out how many turns the stepper motor should turn for each floor
+      // CALL the stepper motor function and PASS in a bool value to make sure that the elevator
+      // is going in the desired direction ( true = UP / false = DOWN )
+
+      // *********
+      //    KEYPAD *
+      // *********
+
+      // Acts as the grid inside the elevator, which allows the passengers to press which floor they want to go to
+      // CALL the keypad function
+
+      // ************************
+      //    Seven Segment Display *
+      // ************************
+
+      // Acts as the number display above the elevator, which displays the current level of the elevator
+      // CALL the seven segment display function
+
+      // *******
+      //    LEDs *
+      // *******
+
+      // Acts as the led in the grid inside the elevator, which reveals the floors where calls have been made to
+      // Write function here that lights up the LED that corresponds with each floor
+      // WE NEED four LEDs in our schematic
+
+
+
+}

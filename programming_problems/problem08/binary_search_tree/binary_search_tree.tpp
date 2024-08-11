@@ -306,12 +306,6 @@ void BinarySearchTree<KeyType, ItemType>::inorder(Node<KeyType, ItemType>* curr,
         return;
     }
 
-    // Setting parent node to the curr node
-    parent = curr;
-
-    // Recursively traversing through the left subtree
-    inorder(curr->right, in, parent);
-
 }
 
 template <typename KeyType, typename ItemType>

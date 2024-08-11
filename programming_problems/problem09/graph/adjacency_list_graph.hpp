@@ -21,6 +21,10 @@ class AdjacencyListGraph: public AbstractGraph<LabelType>
         void depthFirstTraversal(LabelType start, void visit(LabelType&));
 
         void breadthFirstTraversal(LabelType start, void visit(LabelType&));
+
+    private:
+
+        std::vector<AdjacencyListGraph<LabelType>> list;
   
 };
 
